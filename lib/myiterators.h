@@ -18,34 +18,21 @@ class TransformIterator {
     return *this;
   }
 
-  TransformIterator<Iterator, F> operator++(int) {
-    TransformIterator<Iterator, F> copy(*this);
-    ++(*this);
-    return copy;
-  }
-
   TransformIterator<Iterator, F> operator--() {
     --it_;
     return *this;
   }
 
-  TransformIterator<Iterator, F> operator--(int) {
-    TransformIterator<Iterator, F> copy(*this);
-    --(*this);
-    return copy;
-  }
 
   bool operator==(const TransformIterator<Iterator, F>& other) const {
     return this->it_ == other.it_;
   }
 
-  bool operator!=(const TransformIterator<Iterator, F>& other) const {
-    return !(*this == other);
-  }
 };
 
 template <class Iterator, class F>
 class FilterIterator {
+    using iterator = Iterator;
  private:
   Iterator it_;
   Iterator end_;
@@ -82,17 +69,18 @@ class FilterIterator {
 
 template <typename Iterator>
 class ReverseIterator {
+    using iterator = Iterator;
  private:
   Iterator it_;
 
  public:
   ReverseIterator(const Iterator& it) : it_(it) {}
   ReverseIterator<Iterator> operator++() {
-    ++it_;
+    --it_;
     return *this;
   }
   ReverseIterator<Iterator> operator--() {
-    --it_;
+    ++it_;
     return *this;
   }
   auto operator*() const {
@@ -109,6 +97,7 @@ class ReverseIterator {
 
 template <typename Iterator>
 class KeysIterator {
+  using iterator = Iterator;
  private:
   Iterator it_;
 
@@ -130,12 +119,13 @@ class KeysIterator {
     return this->it_ == other.it_;
   }
   bool operator!=(const KeysIterator<Iterator>& other) const {
-    return !(*this != other);
+    return !(*this == other);
   }
 };
 
 template <typename Iterator>
 class ValuesIterator {
+using iterator = Iterator;
  private:
   Iterator it_;
 
@@ -157,6 +147,6 @@ class ValuesIterator {
     return this->it_ == other.it_;
   }
   bool operator!=(const ValuesIterator<Iterator>& other) const {
-    return !(*this != other);
+    return !(*this == other);
   }
 };
